@@ -11,7 +11,7 @@
   <!-- App- / PWA-Icons -->
   <!-- Favicon im Browser-Tab -->
   <link rel="icon" type="image/png" sizes="32x32" href="icons/logo.png" />
-  <!-- iOS / Android Homescreen-Icon -->
+  <!-- Homescreen-Icon (PWA / iOS) -->
   <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png" />
 
   <!-- Manifest -->
@@ -31,7 +31,6 @@
   />
 
   <style>
-    /* ... dein kompletter CSS-Code bleibt unverändert ... */
     :root {
       --accent: #16a34a;
       --accent-dark: #15803d;
@@ -73,7 +72,712 @@
       padding: 12px 12px 0;
     }
 
-    /* ... Rest deines CSS unverändert ... */
+    /* HERO */
+
+    .hero {
+      background: radial-gradient(circle at top left, #22c55e 0, #15803d 40%, #0f172a 100%);
+      border-radius: 24px;
+      padding: 14px 14px 16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 110% -10%, rgba(255,255,255,0.4), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-app-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e 40%, #0ea5e9 100%);
+      box-shadow: 0 0 12px rgba(22, 163, 74, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-main-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-sub {
+      font-size: 11px;
+      color: #d1fae5;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .badge-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.35);
+      border: 1px solid rgba(226,232,240,0.7);
+      backdrop-filter: blur(14px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #bbf7d0;
+      box-shadow: 0 0 12px rgba(22,163,74,1);
+    }
+
+    .xp-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+    }
+
+    .xp-label {
+      font-size: 10px;
+      opacity: 0.9;
+    }
+
+    .xp-bar {
+      width: 120px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.55);
+      border: 1px solid rgba(209,250,229,0.6);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .xp-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #bbf7d0, #22c55e);
+      box-shadow: 0 0 14px rgba(22,163,74,0.9);
+      border-radius: inherit;
+      transition: width var(--transition);
+    }
+
+    .hero-level {
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(209,250,229,0.7);
+      background: rgba(15,23,42,0.45);
+    }
+
+    /* CONTENT */
+
+    .content {
+      flex: 1;
+      margin-top: 12px;
+      margin-bottom: 60px;
+      overflow-y: auto;
+      padding-bottom: 16px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* CARDS */
+
+    .card {
+      background: radial-gradient(circle at top right, #020617, #020617 40%, #020617 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.35);
+      padding: 12px 12px 10px;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.75);
+      margin-bottom: 12px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.7);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip--accent {
+      border-color: rgba(52,211,153,0.7);
+      color: #a7f3d0;
+      background: radial-gradient(circle at top, rgba(22,163,74,0.3), rgba(15,23,42,0.9));
+    }
+
+    /* QUESTS */
+
+    .quest-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .quest-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at left, rgba(22,163,74,0.07), #020617);
+      border: 1px solid rgba(55,65,81,0.8);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition),
+        border-color var(--transition), background var(--transition);
+    }
+
+    .quest-item:active {
+      transform: scale(0.98);
+    }
+
+    .quest-item.completed {
+      background: radial-gradient(circle at left, rgba(22,163,74,0.5), #022c22);
+      border-color: rgba(22,163,74,0.95);
+      box-shadow: 0 0 0 1px rgba(22,163,74,0.6);
+    }
+
+    .quest-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--muted);
+      background: radial-gradient(circle at top, #020617, #020617);
+      flex-shrink: 0;
+    }
+
+    .quest-item.completed .quest-icon {
+      border-color: rgba(22,163,74,0.9);
+      background: radial-gradient(circle at top, #16a34a, #16a34a);
+      color: #dcfce7;
+      box-shadow: 0 0 10px rgba(22,163,74,0.8);
+    }
+
+    .quest-text-main {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .quest-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .quest-xp {
+      margin-left: auto;
+      font-size: 10px;
+      color: #a7f3d0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* PROGRESS */
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid rgba(55,65,81,0.9);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #a3e635);
+      box-shadow: 0 0 18px rgba(22,163,74,0.9);
+      border-radius: inherit;
+      transition: width var(--transition);
+    }
+
+    .progress-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* FOOD SCORE */
+
+    .food-score-card {
+      display: grid;
+      grid-template-columns: 1.2fr 1.1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 420px) {
+      .food-score-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .food-select {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .pill.active {
+      border-color: rgba(22,163,74,0.9);
+      color: #bbf7d0;
+      background: rgba(22,163,74,0.25);
+    }
+
+    .food-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .food-tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px dashed rgba(55,65,81,0.9);
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.7);
+    }
+
+    .food-score-box {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(55,65,81,0.9);
+      background: radial-gradient(circle at top left, #020617, #111827);
+      padding: 8px 10px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .food-score-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .food-score-value {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .food-score-indicator {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .food-score-indicator.good {
+      border-color: rgba(22,163,74,0.9);
+      color: #bbf7d0;
+      background: rgba(22,163,74,0.25);
+    }
+
+    .food-score-indicator.ok {
+      border-color: #f97316;
+      color: #fed7aa;
+      background: rgba(251,146,60,0.25);
+    }
+
+    .food-score-indicator.bad {
+      border-color: #ef4444;
+      color: #fecaca;
+      background: rgba(239,68,68,0.25);
+    }
+
+    .divider {
+      border-top: 1px dashed rgba(55,65,81,0.8);
+      margin: 6px 0;
+    }
+
+    /* NOTE + MOOD */
+
+    .note-area {
+      width: 100%;
+      min-height: 70px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      color: var(--text);
+      padding: 8px 10px;
+      font-family: var(--font-main);
+      font-size: 13px;
+      resize: vertical;
+      outline: none;
+    }
+
+    .note-area:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 1px rgba(14,165,233,0.7);
+    }
+
+    .mood-row {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .mood-btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .mood-btn.active {
+      border-color: rgba(22,163,74,0.9);
+      background: rgba(22,163,74,0.3);
+      color: #e5fdf4;
+      box-shadow: 0 0 12px rgba(22,163,74,0.6);
+    }
+
+    /* BUTTONS */
+
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 7px 12px;
+      font-size: 12px;
+      background: #020617;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at top, #22c55e, #16a34a);
+      border-color: rgba(22,163,74,1);
+      color: #ecfdf3;
+      box-shadow: 0 16px 40px rgba(22,163,74,0.6);
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      background: #020617;
+    }
+
+    .btn-primary .btn-icon {
+      border-color: rgba(22,163,74,0.95);
+      background: rgba(5,46,22,0.8);
+      color: #bbf7d0;
+    }
+
+    /* CHALLENGE SCREEN – horizontal day cards */
+
+    .day-slider {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .day-card {
+      min-width: 80px;
+      max-width: 80px;
+      padding: 8px 6px;
+      border-radius: 14px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      text-align: center;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .day-card.selected {
+      border-color: rgba(22,163,74,0.9);
+      box-shadow: 0 0 0 1px rgba(22,163,74,0.5);
+      background: radial-gradient(circle at top, rgba(22,163,74,0.35), #020617);
+    }
+
+    .day-card-status {
+      font-size: 9px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .ring {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 2px solid rgba(55,65,81,0.9);
+      margin: 0 auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .day-card.completed .ring {
+      border-color: rgba(22,163,74,0.9);
+      color: #bbf7d0;
+    }
+
+    /* STATS SCREEN */
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat-box {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      padding: 8px;
+      font-size: 11px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .stat-note {
+      font-size: 10px;
+      margin-top: 2px;
+      color: #a5b4fc;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .small-badge {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      color: var(--muted);
+    }
+
+    .small-badge.earned {
+      border-color: rgba(22,163,74,0.9);
+      color: #bbf7d0;
+      background: rgba(22,163,74,0.25);
+    }
+
+    /* BOTTOM NAV */
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10px;
+      width: 100%;
+      max-width: 520px;
+      padding: 0 12px;
+      z-index: 20;
+    }
+
+    .bottom-nav-inner {
+      background: rgba(15,23,42,0.96);
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 4px;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .nav-btn i {
+      font-size: 14px;
+    }
+
+    .nav-btn.active {
+      color: #e5fdf4;
+      background: radial-gradient(circle at top, rgba(22,163,74,0.40), transparent 60%);
+    }
+
+    /* LABELS & FOOTER TEXT */
+
+    label {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .tiny-text {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
   </style>
 </head>
 <body>
@@ -84,7 +788,6 @@
       <div class="hero-left">
         <div class="hero-app-title">
           <div class="brand-logo">
-            <!-- Dein App-Logo -->
             <img src="icons/logo.png" alt="Diabetes Challenge Logo" />
           </div>
           <span>90 Day Diabetes Challenge</span>
@@ -114,35 +817,250 @@
   <!-- CONTENT -->
   <main class="content">
     <!-- Screen: Today -->
-    <!-- ... dein kompletter HTML-Inhalt ab hier bleibt wie gepostet ... -->
-    <!-- (ich kürze nur zur Übersicht, du behältst alles) -->
-
-    <!-- Screen: Today -->
     <section class="screen active" id="screen-today">
-      <!-- Tägliche Mission -->
-      <!-- ... usw. ... -->
+      <!-- Daily Quest -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-list-check"></i> Today’s quest
+            </div>
+            <div class="card-sub" id="todayDateLabel">Today • Movement, meals & observation</div>
+          </div>
+          <span class="chip chip--accent" id="todayStatus">0 / 5 tasks</span>
+        </div>
+
+        <div class="quest-list" id="questList"></div>
+
+        <div class="progress-row">
+          <span class="progress-label">Daily progress</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="todayProgressFill"></div>
+        </div>
+        <div class="progress-meta" id="todayProgressMeta">
+          Earn +10 XP for each completed quest. 50 XP = +1 level.
+        </div>
+      </div>
+
+      <!-- Food & Glycemic Impact -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-apple-whole"></i> Food & glycemic impact
+            </div>
+            <div class="card-sub">Quick estimation of today’s eating style.</div>
+          </div>
+        </div>
+
+        <div class="food-score-card">
+          <div class="food-select">
+            <label>Which best describes most of your meals today?</label>
+            <div class="pill-row" id="foodStyleRow">
+              <button class="pill" data-style="keto">Mostly keto</button>
+              <button class="pill" data-style="lowcarb">Low‑carb</button>
+              <button class="pill" data-style="mixed">Mixed / normal</button>
+              <button class="pill" data-style="highcarb">High carb / sugar</button>
+            </div>
+            <div class="food-tags" id="foodTags">
+              <span class="food-tag">Tap again to deselect</span>
+            </div>
+          </div>
+
+          <div class="food-score-box">
+            <div class="food-score-main">
+              <div>
+                <div style="font-size:11px;color:var(--muted);">Estimated daily glycemic load</div>
+                <div class="food-score-value" id="foodGiValue">–</div>
+              </div>
+              <span class="food-score-indicator" id="foodGiIndicator">
+                No data yet
+              </span>
+            </div>
+            <div style="font-size:11px;color:var(--muted);" id="foodGiComment">
+              Select your eating style to get a rough impact estimate.
+            </div>
+            <div class="divider"></div>
+            <div style="font-size:11px;color:var(--muted);">
+              90‑day nutrition score:
+              <strong id="nutritionScore">0 / 100</strong>
+            </div>
+            <div class="tiny-text" id="nutritionComment">
+              Track several days to unlock your long‑term score.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Note & Mood -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-heart-pulse"></i> How was today?
+            </div>
+            <div class="card-sub">Short note & energy check.</div>
+          </div>
+        </div>
+
+        <label for="noteToday">Short note (sugar, events…)</label>
+        <textarea id="noteToday" class="note-area"
+                  placeholder="e.g. Fasting 110, after dinner 140, walked 15 minutes…"></textarea>
+
+        <label style="margin-top:8px;">Mood / energy</label>
+        <div class="mood-row" id="moodRow"></div>
+
+        <div class="btn-row">
+          <button class="btn" id="btnTodayReset">
+            <span class="btn-icon"><i class="fa-solid fa-rotate-left"></i></span> Reset day
+          </button>
+          <button class="btn btn-primary" id="btnTodaySave">
+            <span class="btn-icon"><i class="fa-solid fa-floppy-disk"></i></span> Save & get XP
+          </button>
+        </div>
+      </div>
+
+      <div class="tiny-text">
+        This app is a coaching tool and does not replace medical advice.
+        Please always discuss changes with your doctor or diabetologist.
+      </div>
     </section>
 
     <!-- Screen: Challenge -->
     <section class="screen" id="screen-challenge">
-      <!-- ... -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-flag-checkered"></i> 90 Day Journey
+            </div>
+            <div class="card-sub">
+              Swipe through the days. Tap to jump to a day.
+            </div>
+          </div>
+          <span class="chip" id="challengeSummary">0 / 90 completed</span>
+        </div>
+
+        <div class="day-slider" id="daySlider"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-lightbulb"></i> Today’s tip
+            </div>
+          </div>
+        </div>
+        <p class="card-sub" id="tipText">
+          Week 1: just observe – don’t chase perfection. Two blood sugar values
+          and one conscious meal are a great start.
+        </p>
+      </div>
     </section>
 
     <!-- Screen: Stats -->
     <section class="screen" id="screen-stats">
-      <!-- ... -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-chart-line"></i> Your stats
+            </div>
+            <div class="card-sub">Consistency beats perfection.</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Completed days</div>
+            <div class="stat-value" id="statCompleted">0 / 90</div>
+            <div class="stat-note" id="statCompletedNote">Start with one day.</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Overall progress</div>
+            <div class="stat-value" id="statProgress">0%</div>
+            <div class="stat-note">Goal: 80%+ consistency.</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Avg. daily completion</div>
+            <div class="stat-value" id="statAvgCompletion">0%</div>
+            <div class="stat-note" id="statAvgNote">Do 1–2 tasks daily.</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Current streak</div>
+            <div class="stat-value" id="statStreak">0 days</div>
+            <div class="stat-note" id="statStreakNote">Aim for 3–5 days.</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <label>Badges</label>
+        <div class="badge-row">
+          <span class="small-badge" id="badge3">🔥 3‑day streak</span>
+          <span class="small-badge" id="badge7">🔥 7‑day streak</span>
+          <span class="small-badge" id="badgeLowCarb">🥑 5 low‑carb days</span>
+          <span class="small-badge" id="badgeMovement">🚶 10 movement days</span>
+        </div>
+      </div>
     </section>
 
     <!-- Screen: Profile -->
     <section class="screen" id="screen-profile">
-      <!-- ... -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <i class="fa-solid fa-user"></i> Profile & settings
+            </div>
+            <div class="card-sub">Challenge frame & data tools.</div>
+          </div>
+        </div>
+
+        <p class="card-sub">
+          Target: <strong>80% consistent days</strong><br />
+          Start date: <span id="profileStartDate">Today</span>
+        </p>
+
+        <div class="btn-row">
+          <button class="btn" id="btnExport">
+            <span class="btn-icon"><i class="fa-solid fa-download"></i></span> Export data
+          </button>
+          <button class="btn" style="color:#fca5a5;border-color:#b91c1c;" id="btnResetAll">
+            <span class="btn-icon"><i class="fa-solid fa-trash-can"></i></span> Delete all
+          </button>
+        </div>
+
+        <div class="tiny-text" style="margin-top:10px;">
+          Demo version, local browser storage only.
+          Please discuss all health decisions with your doctor or diabetologist.
+        </div>
+      </div>
     </section>
   </main>
 </div>
 
 <!-- Bottom navigation -->
 <nav class="bottom-nav">
-  <!-- ... -->
+  <div class="bottom-nav-inner">
+    <button class="nav-btn active" data-target="today">
+      <i class="fa-solid fa-house"></i>
+      <span>Today</span>
+    </button>
+    <button class="nav-btn" data-target="challenge">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Journey</span>
+    </button>
+    <button class="nav-btn" data-target="stats">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Stats</span>
+    </button>
+    <button class="nav-btn" data-target="profile">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </button>
+  </div>
 </nav>
 
 <script>
@@ -153,7 +1071,130 @@
     });
   }
 
-  // ... dein kompletter JS-Code bleibt unverändert ...
+  // Bottom-Navigation
+  const SCREENS = {
+    today: document.getElementById("screen-today"),
+    challenge: document.getElementById("screen-challenge"),
+    stats: document.getElementById("screen-stats"),
+    profile: document.getElementById("screen-profile"),
+  };
+
+  document.querySelectorAll(".nav-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const target = btn.dataset.target;
+      Object.entries(SCREENS).forEach(([key, el]) => {
+        el.classList.toggle("active", key === target);
+      });
+    });
+  });
+
+  // Dummy-Moods
+  const moods = [
+    { id: "top", label: "Very good" },
+    { id: "good", label: "Good" },
+    { id: "ok", label: "Okay" },
+    { id: "low", label: "Low energy" },
+    { id: "stress", label: "Stressed" },
+  ];
+
+  const moodRow = document.getElementById("moodRow");
+  let selectedMood = "";
+  moods.forEach((m) => {
+    const btn = document.createElement("button");
+    btn.textContent = m.label;
+    btn.className = "mood-btn";
+    btn.addEventListener("click", () => {
+      selectedMood = selectedMood === m.id ? "" : m.id;
+      renderMoods();
+    });
+    btn.dataset.moodId = m.id;
+    moodRow.appendChild(btn);
+  });
+
+  function renderMoods() {
+    document.querySelectorAll(".mood-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.moodId === selectedMood);
+    });
+  }
+
+  // Dummy-Quests
+  const baseTasks = [
+    { id: "movement", label: "Movement", desc: "20 minutes walk or light exercise", xp: 10 },
+    { id: "food", label: "Conscious meal", desc: "One meal eaten slowly & low‑carb", xp: 10 },
+    { id: "water", label: "Water", desc: "6–8 glasses during the day", xp: 10 },
+    { id: "sleep", label: "Sleep", desc: "Plan for 7 hours of sleep", xp: 10 },
+    { id: "meds", label: "Medication", desc: "Medication & sugar check as agreed", xp: 10 },
+  ];
+
+  let taskState = {
+    movement: false, food: false, water: false, sleep: false, meds: false,
+  };
+
+  const questList = document.getElementById("questList");
+
+  function renderQuests() {
+    questList.innerHTML = "";
+    let completed = 0;
+
+    baseTasks.forEach(task => {
+      const isDone = taskState[task.id];
+      if (isDone) completed++;
+
+      const item = document.createElement("div");
+      item.className = "quest-item" + (isDone ? " completed" : "");
+      item.addEventListener("click", () => {
+        taskState[task.id] = !taskState[task.id];
+        renderQuests();
+      });
+
+      const icon = document.createElement("div");
+      icon.className = "quest-icon";
+      icon.innerHTML = isDone ? '<i class="fa-solid fa-check"></i>' : "";
+
+      const textWrap = document.createElement("div");
+      const main = document.createElement("div");
+      main.className = "quest-text-main";
+      main.textContent = task.label;
+      const sub = document.createElement("div");
+      sub.className = "quest-text-sub";
+      sub.textContent = task.desc;
+      textWrap.appendChild(main);
+      textWrap.appendChild(sub);
+
+      const xp = document.createElement("div");
+      xp.className = "quest-xp";
+      xp.innerHTML = `<i class="fa-solid fa-bolt"></i> +${task.xp} XP`;
+
+      item.appendChild(icon);
+      item.appendChild(textWrap);
+      item.appendChild(xp);
+      questList.appendChild(item);
+    });
+
+    const total = baseTasks.length;
+    const pct = total ? Math.round((completed / total) * 100) : 0;
+    document.getElementById("todayStatus").textContent = `${completed} / ${total} tasks`;
+    document.getElementById("todayProgressFill").style.width = pct + "%";
+    document.getElementById("todayProgressMeta").textContent =
+      pct === 100
+        ? "Awesome – full quest completed! Extra XP unlocked."
+        : "Each task adds XP and moves you towards your goal.";
+
+    const xpTotal = completed * 10;
+    const level = 1 + Math.floor(xpTotal / 50);
+    const xpInLevel = xpTotal % 50;
+    const xpPct = Math.min(100, Math.round((xpInLevel / 50) * 100));
+    document.getElementById("heroXpLabel").textContent =
+      `Level ${level} • ${xpInLevel} / 50 XP`;
+    document.getElementById("heroXpFill").style.width = xpPct + "%";
+    document.getElementById("heroStreak").textContent = `Streak: ${completed > 0 ? 1 : 0} days`;
+  }
+
+  renderQuests();
+  renderMoods();
 </script>
 </body>
 </html>
