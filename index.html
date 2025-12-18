@@ -5,17 +5,28 @@
   <title>90 Day Diabetes Challenge – Ashraf Chaudhry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- PWA: Manifest & Theme -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#16a34a">
+  <!-- Favicon / App-Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-  <!-- iOS: App-Icon & Darstellung -->
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Diabetes90">
+  <!-- PWA: Manifest & Theme (manifest.json optional) -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#16a34a" />
 
-  <!-- Styles -->
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Diabetes90" />
+
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-bxKq4TlNlt7l3IY2OjH4eC9sD1G7xJ6dq+I7UQ2q9lWOEgo4P4uFUB8pSxEl8/6OaS0ZgV+3sMb8CdP7Wf3fJQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
   <style>
     :root {
       --bg: #f3f4ff;
@@ -112,11 +123,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      letter-spacing: -0.06em;
-      font-size: 18px;
-      color: #022c22;
       border: 2px solid rgba(255, 255, 255, 0.65);
+      overflow: hidden;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
     }
 
     .brand-text h1 {
@@ -998,7 +1013,10 @@
   <header>
     <div class="header-inner">
       <div class="brand">
-        <div class="brand-logo">AC</div>
+        <div class="brand-logo">
+          <!-- Dein App-Logo -->
+          <img src="icons/logo.png" alt="Diabetes Challenge Logo" />
+        </div>
         <div class="brand-text">
           <h1>90 Day Diabetes Challenge</h1>
           <p>With Ashraf Chaudhry – focus on habits, not perfection</p>
@@ -1040,7 +1058,7 @@
             </div>
           </div>
           <button class="btn btn-sm" id="btnToday">
-            <span class="btn-icon">●</span> Today
+            <span class="btn-icon"><i class="fa-solid fa-location-crosshairs"></i></span> Today
           </button>
         </div>
 
@@ -1110,7 +1128,7 @@
                 <div class="card-subtitle" style="margin-bottom: 4px;">Tap to toggle foods for this day</div>
                 <div class="food-list" id="foodList"></div>
                 <button class="btn btn-sm" id="btnAddFood" style="margin-top: 6px;">
-                  <span class="btn-icon">＋</span> Add custom food
+                  <span class="btn-icon"><i class="fa-solid fa-plus"></i></span> Add custom food
                 </button>
               </div>
 
@@ -1158,10 +1176,10 @@
 
           <div class="btn-row">
             <button class="btn" id="btnClearDay">
-              <span class="btn-icon">↺</span> Reset day
+              <span class="btn-icon"><i class="fa-solid fa-rotate-left"></i></span> Reset day
             </button>
             <button class="btn btn-primary" id="btnSaveDay">
-              <span class="btn-icon">✔</span> Save changes
+              <span class="btn-icon"><i class="fa-solid fa-floppy-disk"></i></span> Save changes
             </button>
           </div>
         </div>
@@ -1226,10 +1244,10 @@
 
         <div class="btn-row" style="margin-top: 12px;">
           <button class="btn btn-sm" id="btnExportData">
-            <span class="btn-icon">⇩</span> Export data
+            <span class="btn-icon"><i class="fa-solid fa-download"></i></span> Export data
           </button>
           <button class="btn btn-sm" id="btnResetAll" style="color: #b91c1c; border-color: rgba(248, 113, 113, 0.6);">
-            <span class="btn-icon">✖</span> Delete everything
+            <span class="btn-icon"><i class="fa-solid fa-trash-can"></i></span> Delete everything
           </button>
         </div>
       </div>
@@ -1274,7 +1292,7 @@
     <div class="dialog-btn-row">
       <button class="btn btn-sm" id="dialogCancelBtn">Cancel</button>
       <button class="btn btn-primary btn-sm" id="dialogSaveBtn">
-        <span class="btn-icon">✔</span> Save & select
+        <span class="btn-icon"><i class="fa-solid fa-check"></i></span> Save & select
       </button>
     </div>
   </div>
@@ -1356,15 +1374,8 @@
 
   let appState = {
     startDate: null,
-    days: {
-      // [dayNumber]: {
-      //   tasks: { movement: false, ... },
-      //   note: "",
-      //   mood: "",
-      //   foods: ["eggs", "avocado"],
-      // }
-    },
-    customFoods: [], // array of custom food items
+    days: {},
+    customFoods: [],
   };
 
   let selectedDay = 1;
@@ -1384,7 +1395,6 @@
       appState.startDate = today.toISOString().slice(0, 10);
       saveState(false);
     }
-    // Merge custom foods into FOOD_ITEMS
     if (Array.isArray(appState.customFoods)) {
       FOOD_ITEMS = [...BASE_FOOD_ITEMS, ...appState.customFoods];
     }
@@ -1579,7 +1589,6 @@
       tag.textContent = item.category;
 
       right.appendChild(tag);
-
       div.appendChild(left);
       div.appendChild(right);
 
@@ -1795,7 +1804,7 @@
 
       const icon = document.createElement("div");
       icon.className = "check-icon";
-      icon.textContent = isCompleted ? "✔" : "";
+      icon.innerHTML = isCompleted ? '<i class="fa-solid fa-check"></i>' : "";
 
       const label = document.createElement("div");
       label.className = "check-label";
