@@ -1,12 +1,9 @@
 {
-  "name": "90 Day Diabetes Challenge – Ashraf Chaudhry",
+  "name": "90 Day Diabetes Challenge",
   "short_name": "Diabetes90",
-  "description": "Track your 90 day diabetes challenge: habits, low-carb food choices, glycemic impact and streaks.",
-  "start_url": "index.html",
-  "scope": "./",
+  "start_url": "/90-Day-English/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#ffffff",
+  "background_color": "#16a34a",
   "theme_color": "#16a34a",
   "icons": [
     {
