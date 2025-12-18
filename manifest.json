@@ -1,7 +1,7 @@
 {
   "name": "90 Day Diabetes Challenge",
   "short_name": "Diabetes90",
-  "start_url": "/90-Day-English/",
+  "start_url": "/90-Day-English/mobile.html",
   "scope": "/90-Day-English/",
   "display": "standalone",
   "orientation": "portrait",
