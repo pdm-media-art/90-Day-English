@@ -1,1 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>90 Day Diabetes Challenge – Ashraf Chaudhry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- PWA: Manifest & Theme -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#16a34a">
+
+  <!-- iOS: App-Icon & Darstellung -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Diabetes90">
+
+  <!-- Styles: Light, friendly, clean -->
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --bg-soft: #ffffff;
+      --bg-elevated: #ffffff;
+      --accent: #16a34a;
+      --accent-soft: rgba(22, 163, 74, 0.12);
+      --accent-strong: #15803d;
+      --danger: #ef4444;
+      --text: #0f172a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-radius: 18px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --shadow-glow: 0 0 18px rgba(22, 163, 74, 0.25);
+      --transition-fast: 0.16s ease-out;
+      --transition: 0.24s ease-out;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #e5f3ff 0, #f9fafb 55%, #edf2ff 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    #app-root {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e 40%, #0ea5e9 100%);
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      font-size: 16px;
+      color: #022c22;
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-text p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .challenge-badge {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: radial-gradient(circle at top left, rgba(22, 163, 74, 0.12), rgba(255, 255, 255, 0.95));
+      font-size: 12px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      backdrop-filter: blur(12px);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(22, 163, 74, 0.8);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.9fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-elevated);
+      border-radius: var(--card-radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .chip {
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #f9fafb;
+    }
+
+    .chip--accent {
+      border-color: rgba(52, 211, 153, 0.7);
+      color: #166534;
+      background: radial-gradient(circle at top, rgba(22, 163, 74, 0.15), rgba(240, 253, 250, 0.9));
+    }
+
+    /* Timeline */
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .timeline-days {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .day-cell {
+      position: relative;
+      padding-top: 100%;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      cursor: pointer;
+      overflow: hidden;
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .day-cell-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .day-cell:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+      border-color: rgba(148, 163, 184, 0.8);
+      background: #ffffff;
+    }
+
+    .day-cell--today {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.9);
+    }
+
+    .day-cell--completed {
+      background: radial-gradient(circle at top, rgba(22, 163, 74, 0.25), #ecfdf3);
+      border-color: rgba(22, 163, 74, 0.9);
+      box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.5);
+    }
+
+    .day-cell--selected {
+      outline: 1px solid rgba(79, 70, 229, 0.9);
+      box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.7);
+    }
+
+    .day-status-dot {
+      position: absolute;
+      top: 3px;
+      right: 4px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.9);
+    }
+
+    .day-status-dot--completed {
+      background: var(--accent);
+      box-shadow: 0 0 6px rgba(22, 163, 74, 0.95);
+    }
+
+    .day-status-dot--planned {
+      background: #0ea5e9;
+      box-shadow: 0 0 6px rgba(14, 165, 233, 0.95);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #a3e635, #22c55e);
+      box-shadow: var(--shadow-glow);
+      border-radius: inherit;
+      transition: width var(--transition);
+    }
+
+    .progress-bar-gloss {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent 55%);
+      pointer-events: none;
+    }
+
+    .progress-label-row {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      align-items: center;
+      gap: 6px;
+    }
+
+    .day-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill--tiny-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #0ea5e9;
+    }
+
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #f9fafb, #f3f4f6);
+      border: 1px solid #e5e7eb;
+      font-size: 13px;
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .check-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+      border-color: rgba(148, 163, 184, 0.9);
+      background: #ffffff;
+    }
+
+    .check-item.completed {
+      background: radial-gradient(circle at left, rgba(22, 163, 74, 0.22), #ecfdf3);
+      border-color: rgba(22, 163, 74, 0.9);
+      box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.4);
+    }
+
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--muted);
+      flex-shrink: 0;
+      background: radial-gradient(circle at top, #f9fafb, #e5e7eb);
+    }
+
+    .check-item.completed .check-icon {
+      border-color: rgba(22, 163, 74, 0.95);
+      background: radial-gradient(circle at top, #22c55e, #16a34a);
+      color: #ecfdf3;
+      box-shadow: 0 0 6px rgba(22, 163, 74, 0.9);
+    }
+
+    .check-label-main {
+      font-weight: 500;
+    }
+
+    .check-label-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .check-label {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .note-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .note-row label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 70px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+      font-family: var(--font-main);
+      font-size: 13px;
+      color: var(--text);
+      background: #ffffff;
+      outline: none;
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    textarea:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.7);
+      background: #ffffff;
+    }
+
+    .mood-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mood-btn {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .mood-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(148, 163, 184, 0.9);
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+    }
+
+    .mood-btn.active {
+      background: radial-gradient(circle at top, #22c55e, #16a34a);
+      color: #ecfdf3;
+      border-color: rgba(22, 163, 74, 0.95);
+      box-shadow: 0 0 10px rgba(22, 163, 74, 0.9);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 10px;
+    }
+
+    .summary-box {
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      background: radial-gradient(circle at top left, #ffffff, #f9fafb);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 12px;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .summary-trend {
+      font-size: 10px;
+      color: #4f46e5;
+    }
+
+    .pill-badge {
+      padding: 4px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      color: var(--muted);
+    }
+
+    .section-divider {
+      margin: 10px 0 8px;
+      border-top: 1px dashed #e5e7eb;
+    }
+
+    /* Food section */
+
+    .food-section {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #e5e7eb;
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 800px) {
+      .food-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .food-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 170px;
+      overflow-y: auto;
+      padding-right: 3px;
+    }
+
+    .food-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      font-size: 12px;
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .food-item:hover {
+      background: #ffffff;
+      border-color: rgba(148, 163, 184, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .food-item.selected {
+      background: radial-gradient(circle at left, rgba(22, 163, 74, 0.18), #ecfdf3);
+      border-color: rgba(22, 163, 74, 0.9);
+      box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.4);
+    }
+
+    .food-name {
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .food-meta {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .food-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #ecfdf3;
+      color: #166534;
+      border: 1px solid rgba(22, 163, 74, 0.4);
+    }
+
+    .food-score-box {
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+    }
+
+    .food-score-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .food-score-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .food-score-value {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .food-score-subline {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .food-score-indicator {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .food-score-indicator.good {
+      border-color: rgba(22, 163, 74, 0.8);
+      background: #ecfdf3;
+      color: #166534;
+    }
+
+    .food-score-indicator.ok {
+      border-color: #f97316;
+      background: #fff7ed;
+      color: #9a3412;
+    }
+
+    .food-score-indicator.bad {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 6px 12px;
+      font-size: 12px;
+      background: #f9fafb;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        color var(--transition-fast);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(148, 163, 184, 0.9);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      background: #ffffff;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at top, #22c55e, #16a34a);
+      border-color: rgba(22, 163, 74, 1);
+      color: #ecfdf3;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn-primary:hover {
+      background: radial-gradient(circle at top, #4ade80, #22c55e);
+      border-color: rgba(22, 163, 74, 1);
+    }
+
+    .btn-sm {
+      padding: 4px 9px;
+      font-size: 11px;
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 10px;
+    }
+
+    .btn-primary .btn-icon {
+      background: rgba(5, 46, 22, 0.1);
+      border-color: rgba(22, 101, 52, 0.95);
+      color: #bbf7d0;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+    }
+
+    footer {
+      font-size: 10px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 4px;
+    }
+
+    footer a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        align-items: flex-start;
+      }
+
+      .brand-text h1 {
+        font-size: 18px;
+      }
+
+      .timeline-days {
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="app-root">
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">AC</div>
+      <div class="brand-text">
+        <h1>90 Day Diabetes Challenge</h1>
+        <p>With Ashraf Chaudhry – focus on habits, not perfection</p>
+      </div>
+    </div>
+    <div class="challenge-badge">
+      <span class="pill-dot"></span>
+      <span id="challenge-day-label">Day 1 of 90</span>
+      <span>•</span>
+      <span id="challenge-progress-mini">0% completed</span>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <!-- Left: 90 days + day details -->
+    <section class="card">
+      <div class="card-inner">
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">
+              90 Day Overview
+            </div>
+            <div class="card-subtitle">
+              Tap on a day to see your tasks and nutrition impact.
+            </div>
+          </div>
+          <button class="btn btn-sm" id="btnToday">
+            <span class="btn-icon">●</span> Today
+          </button>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+          <div class="timeline-header">
+            <span>Challenge window</span>
+            <span id="challenge-dates"></span>
+          </div>
+          <div class="timeline-days" id="timelineDays"></div>
+          <div class="progress-label-row" style="margin-top: 6px;">
+            <span>Your overall progress</span>
+            <span id="globalProgressText">0 of 90 days completed</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="globalProgressBar"></div>
+            <div class="progress-bar-gloss"></div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Day details -->
+        <div id="dayDetails">
+          <div class="card-title-row" style="margin-bottom: 4px;">
+            <div>
+              <div class="card-title" id="dayTitle">Day 1 – Start</div>
+              <div class="card-subtitle" id="dayDateLabel"></div>
+            </div>
+            <span class="pill-badge" id="dayStatusBadge">Status: open</span>
+          </div>
+
+          <div class="day-meta-row">
+            <div class="pill"><span class="pill--tiny-dot"></span> Focus today: movement & nutrition</div>
+            <div class="pill">Time: 20–30 minutes of active time</div>
+          </div>
+
+          <div class="progress-label-row">
+            <span>Today’s checklist</span>
+            <span id="dayProgressText">0 of 5 completed</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="dayProgressBar"></div>
+            <div class="progress-bar-gloss"></div>
+          </div>
+
+          <!-- Checklist -->
+          <div class="checklist" id="checklistContainer"></div>
+
+          <!-- Food & glycemic impact -->
+          <div class="food-section">
+            <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">Food & Glycemic Impact</div>
+            <div class="card-subtitle">
+              Select the foods you mostly ate today. Focus on low‑carb and ketogenic‑friendly options for a better score.
+            </div>
+
+            <div class="food-grid">
+              <!-- Food selection -->
+              <div>
+                <div class="card-subtitle" style="margin-bottom: 4px;">Food selection (tap to toggle)</div>
+                <div class="food-list" id="foodList"></div>
+              </div>
+
+              <!-- Food score -->
+              <div>
+                <div class="food-score-box">
+                  <div class="food-score-main">
+                    <div>
+                      <div class="food-score-label">Estimated daily glycemic load</div>
+                      <div class="food-score-value" id="dayGiScore">0</div>
+                    </div>
+                    <span class="food-score-indicator" id="dayGiIndicator">No data yet</span>
+                  </div>
+                  <div class="food-score-subline">
+                    <span id="dayGiComment">Add some foods to see your daily impact.</span>
+                  </div>
+                  <div class="section-divider" style="margin: 6px 0;"></div>
+                  <div class="food-score-label">
+                    Your 90‑day nutrition score:
+                    <strong id="userNutritionScore">0 / 100</strong>
+                  </div>
+                  <div class="card-subtitle" id="userNutritionComment" style="margin-top: 2px;">
+                    Stay consistent with low‑glycemic choices to increase your score over time.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes & mood -->
+          <div class="note-row">
+            <label for="noteInput">Short note about today (e.g. blood sugar trend, special events)</label>
+            <textarea id="noteInput" placeholder="Fasting value, after meals, anything notable..."></textarea>
+          </div>
+
+          <div class="note-row">
+            <label>Mood / energy today</label>
+            <div class="mood-row" id="moodRow"></div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn" id="btnClearDay">
+              <span class="btn-icon">↺</span> Reset day
+            </button>
+            <button class="btn btn-primary" id="btnSaveDay">
+              <span class="btn-icon">✔</span> Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Summary -->
+    <section class="card">
+      <div class="card-inner">
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">Your challenge stats</div>
+            <div class="card-subtitle">
+              Overview of progress, consistency, and nutrition.
+            </div>
+          </div>
+          <span class="chip chip--accent" id="streakChip">Streak: 0 days</span>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <span class="summary-label">Completed days</span>
+            <span class="summary-value" id="summaryCompletedDays">0 / 90</span>
+            <span class="summary-trend" id="summaryCompletedTrend">Keep going – every day counts.</span>
+          </div>
+          <div class="summary-box">
+            <span class="summary-label">Overall progress</span>
+            <span class="summary-value" id="summaryProgressPercent">0%</span>
+            <span class="summary-trend" id="summaryProgressTrend">Goal: 80%+ consistency.</span>
+          </div>
+          <div class="summary-box">
+            <span class="summary-label">Average daily checklist completion</span>
+            <span class="summary-value" id="summaryAvgDayCompletion">0%</span>
+            <span class="summary-trend" id="summaryAvgDayTrend">Not perfection – just better than yesterday.</span>
+          </div>
+          <div class="summary-box">
+            <span class="summary-label">Current streak</span>
+            <span class="summary-value" id="summaryStreak">0 days</span>
+            <span class="summary-trend" id="summaryStreakTrend">Try to keep 3–5 days in a row.</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div>
+          <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">Today’s tip</div>
+          <p class="card-subtitle" id="dailyTip">
+            Take 10–15 minutes for a relaxed walk right after a meal. Many people see a more stable blood sugar with this simple habit.
+          </p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">
+          <strong>Important note:</strong><br />
+          This app is a coaching and tracking tool and does not replace individual medical advice.
+          Please always discuss changes to medication, nutrition or physical activity with your doctor or diabetologist.
+        </div>
+
+        <div class="btn-row" style="margin-top: 12px;">
+          <button class="btn btn-sm" id="btnExportData">
+            <span class="btn-icon">⇩</span> Export data
+          </button>
+          <button class="btn btn-sm" id="btnResetAll" style="color: #b91c1c; border-color: rgba(248, 113, 113, 0.6);">
+            <span class="btn-icon">✖</span> Delete everything
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>Concept for the 90 Day Diabetes Challenge – demo version (local browser storage only)</div>
+    <div>© <span id="year"></span> – Content should be adapted with Ashraf Chaudhry & medical professionals.</div>
+  </footer>
+</div>
+
+<script>
+  /******************************************************
+   * Base configuration
+   ******************************************************/
+
+  const TOTAL_DAYS = 90;
+
+  const BASE_TASKS = [
+    {
+      id: "movement",
+      label: "Movement",
+      description: "At least 20 minutes of movement (e.g. walk, light exercise)",
+    },
+    {
+      id: "food",
+      label: "Conscious meal",
+      description: "One meal eaten slowly, with focus on portion and carbohydrates",
+    },
+    {
+      id: "water",
+      label: "Water",
+      description: "At least 6–8 glasses of water throughout the day",
+    },
+    {
+      id: "sleep",
+      label: "Sleep",
+      description: "Plan / achieve at least 7 hours of sleep",
+    },
+    {
+      id: "meds",
+      label: "Medication / measurement",
+      description: "Take medication & check blood sugar as agreed with your doctor",
+    },
+  ];
+
+  const MOODS = [
+    { id: "top", label: "Very good" },
+    { id: "good", label: "Good" },
+    { id: "ok", label: "Okay" },
+    { id: "low", label: "Low energy" },
+    { id: "stress", label: "Stressed" },
+  ];
+
+  // Simple, curated food list for keto / low carb focus
+  // note: gi is a simplified index; carbsPerPortion in grams (approx.)
+  const FOOD_ITEMS = [
+    { id: "eggs", name: "Eggs", gi: 0, carbs: 1, category: "Keto friendly" },
+    { id: "avocado", name: "Avocado", gi: 15, carbs: 2, category: "Keto friendly" },
+    { id: "olive_oil", name: "Olive oil", gi: 0, carbs: 0, category: "Healthy fat" },
+    { id: "nuts", name: "Nuts (almonds, walnuts)", gi: 15, carbs: 5, category: "Low‑carb" },
+    { id: "berries", name: "Berries (small portion)", gi: 25, carbs: 8, category: "Low‑carb" },
+    { id: "leafy_greens", name: "Leafy greens (salad, spinach)", gi: 15, carbs: 3, category: "Low‑carb" },
+    { id: "nonstarchy_veg", name: "Non‑starchy vegetables", gi: 20, carbs: 6, category: "Low‑carb" },
+    { id: "fish", name: "Fish (salmon, trout, mackerel)", gi: 0, carbs: 0, category: "Protein" },
+    { id: "meat", name: "Lean meat / poultry", gi: 0, carbs: 0, category: "Protein" },
+    { id: "cheese", name: "Cheese (in moderation)", gi: 0, carbs: 1, category: "Keto friendly" },
+    { id: "yogurt_lowcarb", name: "Unsweetened Greek yogurt", gi: 15, carbs: 6, category: "Low‑carb" },
+    { id: "beans", name: "Beans / lentils (small portion)", gi: 30, carbs: 15, category: "Moderate" },
+    { id: "whole_grain", name: "Whole grain bread (small portion)", gi: 50, carbs: 20, category: "Higher carb" },
+    { id: "white_rice", name: "White rice", gi: 70, carbs: 35, category: "High carb" },
+    { id: "white_bread", name: "White bread", gi: 75, carbs: 25, category: "High carb" },
+    { id: "soda", name: "Sugary soda / juice", gi: 80, carbs: 30, category: "High sugar" },
+    { id: "sweets", name: "Sweets / candy / cake", gi: 80, carbs: 30, category: "High sugar" },
+    { id: "pasta", name: "Pasta (regular)", gi: 65, carbs: 30, category: "High carb" },
+  ];
+
+  const STORAGE_KEY = "diabetes_90day_challenge_v2";
+
+  /******************************************************
+   * State & storage
+   ******************************************************/
+
+  let appState = {
+    startDate: null,
+    days: {
+      // [dayNumber]: {
+      //   tasks: { movement: false, ... },
+      //   note: "",
+      //   mood: "",
+      //   foods: ["eggs", "avocado"],
+      // }
+    },
+  };
+
+  let selectedDay = 1;
+
+  function loadState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        appState = Object.assign({ startDate: null, days: {} }, data);
+      } catch (e) {
+        console.error("Error loading data:", e);
+      }
+    }
+    if (!appState.startDate) {
+      const today = new Date();
+      appState.startDate = today.toISOString().slice(0, 10);
+      saveState(false);
+    }
+  }
+
+  function saveState(updateUI = true) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+    if (updateUI) {
+      updateAllComputedUI();
+    }
+  }
+
+  function resetAll() {
+    if (!confirm("Are you sure? All challenge data (for all days) will be deleted.")) {
+      return;
+    }
+    localStorage.removeItem(STORAGE_KEY);
+    appState = { startDate: null, days: {} };
+    loadState();
+    buildTimeline();
+    renderDay(selectedDay);
+    updateAllComputedUI();
+  }
+
+  /******************************************************
+   * Date helpers
+   ******************************************************/
+
+  function parseISODate(iso) {
+    const [y, m, d] = iso.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function formatDateLong(date) {
+    // Use locale en-GB for DD/MM/YYYY style but English weekday
+    return date.toLocaleDateString("en-GB", {
+      weekday: "short",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  }
+
+  function addDays(baseDate, offset) {
+    const d = new Date(baseDate);
+    d.setDate(d.getDate() + offset);
+    return d;
+  }
+
+  function getDayDate(dayNumber) {
+    const start = parseISODate(appState.startDate);
+    return addDays(start, dayNumber - 1);
+  }
+
+  function getTodayDayNumber() {
+    const start = parseISODate(appState.startDate);
+    const now = new Date();
+    const diffMs = now.setHours(0, 0, 0, 0) - start.setHours(0, 0, 0, 0);
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const dayNumber = diffDays + 1;
+    if (dayNumber < 1 || dayNumber > TOTAL_DAYS) return null;
+    return dayNumber;
+  }
+
+  /******************************************************
+   * Timeline UI
+   ******************************************************/
+
+  function buildTimeline() {
+    const container = document.getElementById("timelineDays");
+    container.innerHTML = "";
+    const todayDayNum = getTodayDayNumber();
+
+    for (let i = 1; i <= TOTAL_DAYS; i++) {
+      const cell = document.createElement("div");
+      cell.className = "day-cell";
+      cell.dataset.day = i;
+
+      const inner = document.createElement("div");
+      inner.className = "day-cell-inner";
+      inner.textContent = i;
+      cell.appendChild(inner);
+
+      const dot = document.createElement("div");
+      dot.className = "day-status-dot";
+      cell.appendChild(dot);
+
+      const dayData = appState.days[i];
+      const tasksDone = dayData ? Object.values(dayData.tasks || {}).filter(Boolean).length : 0;
+      const dayCompleted = tasksDone >= BASE_TASKS.length;
+
+      if (dayCompleted) {
+        cell.classList.add("day-cell--completed");
+        dot.classList.add("day-status-dot--completed");
+      } else if (dayData && tasksDone > 0) {
+        dot.classList.add("day-status-dot--planned");
+      }
+
+      if (todayDayNum === i) {
+        cell.classList.add("day-cell--today");
+      }
+
+      if (selectedDay === i) {
+        cell.classList.add("day-cell--selected");
+      }
+
+      cell.addEventListener("click", () => {
+        selectedDay = i;
+        document
+          .querySelectorAll(".day-cell")
+          .forEach((el) => el.classList.remove("day-cell--selected"));
+        cell.classList.add("day-cell--selected");
+        renderDay(selectedDay);
+      });
+
+      container.appendChild(cell);
+    }
+
+    const start = parseISODate(appState.startDate);
+    const end = addDays(start, TOTAL_DAYS - 1);
+    document.getElementById("challenge-dates").textContent =
+      formatDateLong(start) + " – " + formatDateLong(end);
+  }
+
+  /******************************************************
+   * Day state helpers
+   ******************************************************/
+
+  function getOrInitDay(dayNumber) {
+    if (!appState.days[dayNumber]) {
+      const taskState = {};
+      BASE_TASKS.forEach((t) => (taskState[t.id] = false));
+      appState.days[dayNumber] = {
+        tasks: taskState,
+        note: "",
+        mood: "",
+        foods: [],
+      };
+    } else if (!appState.days[dayNumber].foods) {
+      // migrate old state without foods
+      appState.days[dayNumber].foods = [];
+    }
+    return appState.days[dayNumber];
+  }
+
+  /******************************************************
+   * Food & GI logic
+   ******************************************************/
+
+  function buildFoodList(selectedFoods) {
+    const container = document.getElementById("foodList");
+    container.innerHTML = "";
+
+    FOOD_ITEMS.forEach((item) => {
+      const div = document.createElement("div");
+      const isSelected = selectedFoods.includes(item.id);
+      div.className = "food-item" + (isSelected ? " selected" : "");
+      div.dataset.foodId = item.id;
+
+      const left = document.createElement("div");
+      const name = document.createElement("div");
+      name.className = "food-name";
+      name.textContent = item.name;
+
+      const meta = document.createElement("div");
+      meta.className = "food-meta";
+      meta.textContent = `GI ~ ${item.gi} • ~${item.carbs} g carbs`;
+
+      left.appendChild(name);
+      left.appendChild(meta);
+
+      const right = document.createElement("div");
+      right.style.display = "flex";
+      right.style.alignItems = "center";
+      right.style.gap = "6px";
+
+      const tag = document.createElement("span");
+      tag.className = "food-tag";
+      tag.textContent = item.category;
+
+      right.appendChild(tag);
+
+      div.appendChild(left);
+      div.appendChild(right);
+
+      div.addEventListener("click", () => {
+        const dayData = getOrInitDay(selectedDay);
+        const idx = dayData.foods.indexOf(item.id);
+        if (idx === -1) {
+          dayData.foods.push(item.id);
+        } else {
+          dayData.foods.splice(idx, 1);
+        }
+        saveState(false);
+        // Rebuild list to update visual state
+        buildFoodList(dayData.foods);
+        updateDayGiUI(dayData);
+        updateAllComputedUI(); // updates user nutrition score as well
+      });
+
+      container.appendChild(div);
+    });
+  }
+
+  function computeDayGiScore(dayData) {
+    const foods = dayData.foods || [];
+    if (foods.length === 0) {
+      return {
+        giScore: 0,
+        quality: "none",
+      };
+    }
+
+    // Simple model: sum(gi * portionFactor)
+    // assume each selected food ~= 1 "portion"
+    // GI load = average(GI) + small carb influence
+    let giSum = 0;
+    let carbSum = 0;
+    foods.forEach((id) => {
+      const item = FOOD_ITEMS.find((f) => f.id === id);
+      if (!item) return;
+      giSum += item.gi;
+      carbSum += item.carbs;
+    });
+
+    const avgGi = giSum / foods.length;
+    const giLoad = avgGi + carbSum * 0.4; // arbitrary factor: more carbs => higher impact
+
+    // clamp
+    const clamped = Math.max(0, Math.min(100, Math.round(giLoad)));
+
+    let quality = "good";
+    if (clamped <= 35) {
+      quality = "good";
+    } else if (clamped <= 60) {
+      quality = "ok";
+    } else {
+      quality = "bad";
+    }
+
+    return {
+      giScore: clamped,
+      quality,
+    };
+  }
+
+  function updateDayGiUI(dayData) {
+    const giLabel = document.getElementById("dayGiScore");
+    const giIndicator = document.getElementById("dayGiIndicator");
+    const giComment = document.getElementById("dayGiComment");
+
+    const { giScore, quality } = computeDayGiScore(dayData);
+    giLabel.textContent = giScore;
+
+    giIndicator.classList.remove("good", "ok", "bad");
+    if (quality === "none") {
+      giIndicator.textContent = "No data yet";
+      giComment.textContent = "Select the foods you mainly ate today to estimate your glycemic impact.";
+      return;
+    }
+
+    if (quality === "good") {
+      giIndicator.classList.add("good");
+      giIndicator.textContent = "Low glycemic impact";
+      giComment.textContent =
+        "Great job – your choices are mainly low‑carb / keto‑friendly and gentle on blood sugar.";
+    } else if (quality === "ok") {
+      giIndicator.classList.add("ok");
+      giIndicator.textContent = "Moderate impact";
+      giComment.textContent =
+        "Overall okay. If you want to improve, swap one higher‑carb food for a low‑glycemic option tomorrow.";
+    } else {
+      giIndicator.classList.add("bad");
+      giIndicator.textContent = "High glycemic impact";
+      giComment.textContent =
+        "Today included some higher‑sugar / high‑carb foods. That’s okay – use it as feedback for tomorrow, not as a failure.";
+    }
+  }
+
+  function computeUserNutritionScore() {
+    // Score based on all days' GI
+    let totalScore = 0;
+    let daysWithFood = 0;
+
+    for (let i = 1; i <= TOTAL_DAYS; i++) {
+      const d = appState.days[i];
+      if (!d || !d.foods || d.foods.length === 0) continue;
+      const { giScore } = computeDayGiScore(d);
+      // transform GI (0 = best, 100 = worst) to points (100 = best, 0 = worst)
+      const points = Math.max(0, 100 - giScore);
+      totalScore += points;
+      daysWithFood++;
+    }
+
+    if (daysWithFood === 0) {
+      return {
+        raw: 0,
+        comment: "Once you track food on several days, a nutrition score will appear here.",
+      };
+    }
+
+    const avgPoints = Math.round(totalScore / daysWithFood);
+
+    let comment;
+    if (avgPoints < 40) {
+      comment = "You are just starting. Try to build 1–2 low‑glycemic meals per day.";
+    } else if (avgPoints < 70) {
+      comment = "Nice direction – you already have many better choices. Small swaps can move this score up.";
+    } else {
+      comment = "Excellent – your average choices are very friendly to your blood sugar.";
+    }
+
+    return {
+      raw: avgPoints,
+      comment,
+    };
+  }
+
+  /******************************************************
+   * Render day
+   ******************************************************/
+
+  function renderDay(dayNumber) {
+    const dayData = getOrInitDay(dayNumber);
+    const date = getDayDate(dayNumber);
+
+    const dayTitleEl = document.getElementById("dayTitle");
+    const dayDateLabelEl = document.getElementById("dayDateLabel");
+    dayTitleEl.textContent = `Day ${dayNumber}`;
+    dayDateLabelEl.textContent = formatDateLong(date);
+
+    const tasksDone = Object.values(dayData.tasks).filter(Boolean).length;
+    const dayStatusBadge = document.getElementById("dayStatusBadge");
+    if (tasksDone === 0) {
+      dayStatusBadge.textContent = "Status: open";
+      dayStatusBadge.style.color = "#6b7280";
+    } else if (tasksDone < BASE_TASKS.length) {
+      dayStatusBadge.textContent = "Status: in progress";
+      dayStatusBadge.style.color = "#0ea5e9";
+    } else {
+      dayStatusBadge.textContent = "Status: completed";
+      dayStatusBadge.style.color = "#16a34a";
+    }
+
+    const checklistContainer = document.getElementById("checklistContainer");
+    checklistContainer.innerHTML = "";
+    BASE_TASKS.forEach((task) => {
+      const isCompleted = !!dayData.tasks[task.id];
+
+      const item = document.createElement("div");
+      item.className = "check-item" + (isCompleted ? " completed" : "");
+      item.dataset.taskId = task.id;
+
+      const icon = document.createElement("div");
+      icon.className = "check-icon";
+      icon.textContent = isCompleted ? "✔" : "";
+
+      const label = document.createElement("div");
+      label.className = "check-label";
+
+      const main = document.createElement("div");
+      main.className = "check-label-main";
+      main.textContent = task.label;
+
+      const sub = document.createElement("div");
+      sub.className = "check-label-sub";
+      sub.textContent = task.description;
+
+      label.appendChild(main);
+      label.appendChild(sub);
+
+      item.appendChild(icon);
+      item.appendChild(label);
+
+      item.addEventListener("click", () => {
+        dayData.tasks[task.id] = !dayData.tasks[task.id];
+        saveState(false);
+        renderDay(selectedDay);
+        buildTimeline();
+        updateAllComputedUI();
+      });
+
+      checklistContainer.appendChild(item);
+    });
+
+    updateDayProgressUI(dayData);
+
+    const noteInput = document.getElementById("noteInput");
+    noteInput.value = dayData.note || "";
+
+    renderMoods(dayData.mood);
+
+    // Food
+    buildFoodList(dayData.foods || []);
+    updateDayGiUI(dayData);
+    updateUserNutritionScoreUI();
+  }
+
+  function updateDayProgressUI(dayData) {
+    const tasksDone = Object.values(dayData.tasks).filter(Boolean).length;
+    const total = BASE_TASKS.length;
+    const percent = Math.round((tasksDone / total) * 100);
+
+    const dayProgressText = document.getElementById("dayProgressText");
+    dayProgressText.textContent = `${tasksDone} of ${total} completed`;
+
+    const bar = document.getElementById("dayProgressBar");
+    bar.style.width = percent + "%";
+  }
+
+  function renderMoods(selectedMood) {
+    const container = document.getElementById("moodRow");
+    container.innerHTML = "";
+
+    MOODS.forEach((m) => {
+      const btn = document.createElement("button");
+      btn.className = "mood-btn" + (selectedMood === m.id ? " active" : "");
+      btn.textContent = m.label;
+      btn.dataset.moodId = m.id;
+      btn.addEventListener("click", () => {
+        const dayData = getOrInitDay(selectedDay);
+        dayData.mood = dayData.mood === m.id ? "" : m.id;
+        saveState(false);
+        renderMoods(dayData.mood);
+        updateAllComputedUI();
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function updateUserNutritionScoreUI() {
+    const { raw, comment } = computeUserNutritionScore();
+    const userScoreEl = document.getElementById("userNutritionScore");
+    const userCommentEl = document.getElementById("userNutritionComment");
+    userScoreEl.textContent = `${raw} / 100`;
+    userCommentEl.textContent = comment;
+  }
+
+  /******************************************************
+   * Aggregated stats
+   ******************************************************/
+
+  function computeStats() {
+    let completedDays = 0;
+    let totalDayPercentSum = 0;
+    let daysWithData = 0;
+
+    for (let i = 1; i <= TOTAL_DAYS; i++) {
+      const d = appState.days[i];
+      if (!d) continue;
+      const tasks = d.tasks || {};
+      const done = Object.values(tasks).filter(Boolean).length;
+      const percent = done / BASE_TASKS.length;
+      totalDayPercentSum += percent;
+      daysWithData += 1;
+      if (done >= BASE_TASKS.length) {
+        completedDays += 1;
+      }
+    }
+
+    const overallPercent = (completedDays / TOTAL_DAYS) * 100;
+    const avgDayCompletion =
+      daysWithData === 0 ? 0 : (totalDayPercentSum / daysWithData) * 100;
+
+    let currentStreak = 0;
+    const todayDayNum = getTodayDayNumber();
+    if (todayDayNum) {
+      for (let i = todayDayNum; i >= 1; i--) {
+        const d = appState.days[i];
+        if (!d) break;
+        const done = Object.values(d.tasks || {}).filter(Boolean).length;
+        if (done === 0) break;
+        currentStreak += 1;
+      }
+    }
+
+    return {
+      completedDays,
+      overallPercent: Math.round(overallPercent),
+      avgDayCompletion: Math.round(avgDayCompletion),
+      currentStreak,
+    };
+  }
+
+  function updateAllComputedUI() {
+    const stats = computeStats();
+
+    const globalBar = document.getElementById("globalProgressBar");
+    globalBar.style.width = stats.overallPercent + "%";
+
+    const globalText = document.getElementById("globalProgressText");
+    globalText.textContent = `${stats.completedDays} of ${TOTAL_DAYS} days completed`;
+
+    const mini = document.getElementById("challenge-progress-mini");
+    mini.textContent = `${stats.overallPercent}% completed`;
+
+    const summaryCompletedDays = document.getElementById("summaryCompletedDays");
+    summaryCompletedDays.textContent = `${stats.completedDays} / ${TOTAL_DAYS}`;
+
+    const summaryProgressPercent = document.getElementById("summaryProgressPercent");
+    summaryProgressPercent.textContent = stats.overallPercent + "%";
+
+    const summaryAvgDayCompletion = document.getElementById("summaryAvgDayCompletion");
+    summaryAvgDayCompletion.textContent = stats.avgDayCompletion + "%";
+
+    const summaryStreak = document.getElementById("summaryStreak");
+    summaryStreak.textContent = `${stats.currentStreak} days`;
+
+    const streakChip = document.getElementById("streakChip");
+    streakChip.textContent = `Streak: ${stats.currentStreak} days`;
+
+    const summaryCompletedTrend = document.getElementById("summaryCompletedTrend");
+    if (stats.completedDays === 0) {
+      summaryCompletedTrend.textContent = "Start today – one small step is enough.";
+    } else if (stats.completedDays < 7) {
+      summaryCompletedTrend.textContent = "Nice base – aim for one full week.";
+    } else if (stats.completedDays < 30) {
+      summaryCompletedTrend.textContent = "You are on your way to a habit – keep going.";
+    } else {
+      summaryCompletedTrend.textContent = "Impressive – you are building a real lifestyle change.";
+    }
+
+    const summaryAvgDayTrend = document.getElementById("summaryAvgDayTrend");
+    if (stats.avgDayCompletion < 40) {
+      summaryAvgDayTrend.textContent = "Start with 1–2 daily tasks – everything counts.";
+    } else if (stats.avgDayCompletion < 70) {
+      summaryAvgDayTrend.textContent = "Very good – try to close small gaps.";
+    } else {
+      summaryAvgDayTrend.textContent = "Excellent – consistency beats perfection.";
+    }
+
+    const summaryStreakTrend = document.getElementById("summaryStreakTrend");
+    if (stats.currentStreak === 0) {
+      summaryStreakTrend.textContent = "Try to be active today and tomorrow – a 2‑day streak.";
+    } else if (stats.currentStreak < 3) {
+      summaryStreakTrend.textContent = "Almost there – 3 days in a row is a great start.";
+    } else if (stats.currentStreak < 7) {
+      summaryStreakTrend.textContent = "You are in the flow – a full week is very strong.";
+    } else {
+      summaryStreakTrend.textContent = "Fantastic – you’re showing real discipline.";
+    }
+
+    const dailyTip = document.getElementById("dailyTip");
+    const todayNum = getTodayDayNumber() || 1;
+    if (todayNum <= 7) {
+      dailyTip.textContent =
+        "Week 1 focus: observe instead of being perfect. Note 1–2 blood sugar values and meals to see patterns.";
+    } else if (todayNum <= 30) {
+      dailyTip.textContent =
+        "Try walking for 10 minutes after each main meal. Many people see measurable improvements in blood sugar.";
+    } else if (todayNum <= 60) {
+      dailyTip.textContent =
+        "Combine movement with something you enjoy: music, a podcast or a call. This helps build a habit.";
+    } else {
+      dailyTip.textContent =
+        "Use your experience: which habits helped you most? Make those non‑negotiable in your daily routine.";
+    }
+
+    const challengeDayLabel = document.getElementById("challenge-day-label");
+    if (todayNum) {
+      challengeDayLabel.textContent = `Day ${todayNum} of ${TOTAL_DAYS}`;
+    } else {
+      challengeDayLabel.textContent = `Challenge started – ${TOTAL_DAYS} day framework`;
+    }
+
+    updateUserNutritionScoreUI();
+  }
+
+  /******************************************************
+   * Events
+   ******************************************************/
+
+  function setupEvents() {
+    document.getElementById("btnToday").addEventListener("click", () => {
+      const todayNum = getTodayDayNumber() || 1;
+      selectedDay = todayNum;
+      buildTimeline();
+      renderDay(selectedDay);
+    });
+
+    document.getElementById("btnSaveDay").addEventListener("click", () => {
+      const dayData = getOrInitDay(selectedDay);
+      const noteInput = document.getElementById("noteInput");
+      dayData.note = noteInput.value || "";
+      saveState();
+      alert("Day saved.");
+    });
+
+    document.getElementById("btnClearDay").addEventListener("click", () => {
+      if (!confirm("Really reset this day? All checkmarks, note, mood and foods will be cleared.")) {
+        return;
+      }
+      const taskState = {};
+      BASE_TASKS.forEach((t) => (taskState[t.id] = false));
+      appState.days[selectedDay] = {
+        tasks: taskState,
+        note: "",
+        mood: "",
+        foods: [],
+      };
+      saveState(false);
+      renderDay(selectedDay);
+      buildTimeline();
+      updateAllComputedUI();
+    });
+
+    document.getElementById("btnResetAll").addEventListener("click", resetAll);
+
+    document.getElementById("btnExportData").addEventListener("click", () => {
+      const dataStr = JSON.stringify(appState, null, 2);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "diabetes_challenge_export.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  /******************************************************
+   * Init + Service Worker
+   ******************************************************/
+
+  function init() {
+    loadState();
+    const todayNum = getTodayDayNumber();
+    selectedDay = todayNum || 1;
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    buildTimeline();
+    renderDay(selectedDay);
+    updateAllComputedUI();
+    setupEvents();
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch((err) => {
+        console.error("Service worker registration failed:", err);
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
