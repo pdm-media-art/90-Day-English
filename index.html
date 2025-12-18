@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Diabetes90">
 
-  <!-- Styles: Light, friendly, clean -->
+  <!-- Styles -->
   <style>
     :root {
-      --bg: #f9fafb;
-      --bg-soft: #ffffff;
+      --bg: #f3f4ff;
+      --bg-soft: #f9fafb;
       --bg-elevated: #ffffff;
       --accent: #16a34a;
       --accent-soft: rgba(22, 163, 74, 0.12);
@@ -28,6 +28,7 @@
       --text: #0f172a;
       --muted: #6b7280;
       --border: #e5e7eb;
+      --border-strong: #d1d5db;
       --card-radius: 18px;
       --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
       --shadow-glow: 0 0 18px rgba(22, 163, 74, 0.25);
@@ -47,7 +48,8 @@
       margin: 0;
       min-height: 100vh;
       font-family: var(--font-main);
-      background: radial-gradient(circle at top, #e5f3ff 0, #f9fafb 55%, #edf2ff 100%);
+      background:
+        radial-gradient(circle at top, #dbeafe 0, #eef2ff 45%, #f9fafb 100%);
       color: var(--text);
       display: flex;
       justify-content: center;
@@ -62,12 +64,37 @@
       gap: 18px;
     }
 
+    /* Header */
+
     header {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      padding: 14px 16px;
+      background:
+        radial-gradient(circle at 0% 0%, #22c55e 0, #16a34a 35%, #22c55e 55%, #0ea5e9 100%);
+      color: #ecfdf3;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 12px;
       align-items: center;
+      box-shadow: 0 22px 60px rgba(22, 163, 74, 0.35);
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 120% -20%, rgba(255, 255, 255, 0.5), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .header-inner {
+      position: relative;
+      z-index: 1;
+      display: contents;
     }
 
     .brand {
@@ -77,51 +104,76 @@
     }
 
     .brand-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
       background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e 40%, #0ea5e9 100%);
-      box-shadow: 0 0 18px rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 18px rgba(22, 163, 74, 0.6);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       letter-spacing: -0.06em;
-      font-size: 16px;
+      font-size: 18px;
       color: #022c22;
+      border: 2px solid rgba(255, 255, 255, 0.65);
     }
 
     .brand-text h1 {
       margin: 0;
-      font-size: 20px;
+      font-size: 21px;
       letter-spacing: -0.03em;
     }
 
     .brand-text p {
       margin: 2px 0 0;
       font-size: 12px;
-      color: var(--muted);
+      color: #dcfce7;
     }
 
     .challenge-badge {
       padding: 8px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: radial-gradient(circle at top left, rgba(22, 163, 74, 0.12), rgba(255, 255, 255, 0.95));
+      border: 1px solid rgba(226, 232, 240, 0.7);
+      background: rgba(15, 23, 42, 0.26);
       font-size: 12px;
       display: inline-flex;
       gap: 8px;
       align-items: center;
-      color: var(--muted);
-      backdrop-filter: blur(12px);
+      color: #e5f9ff;
+      backdrop-filter: blur(14px);
     }
 
     .pill-dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px rgba(22, 163, 74, 0.8);
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(187, 247, 208, 1);
+    }
+
+    .header-mini-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #dcfce7;
+    }
+
+    .header-mini-pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(226, 232, 240, 0.55);
+      background: rgba(15, 23, 42, 0.18);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .header-mini-pill strong {
+      font-weight: 600;
+      color: #f9fafb;
     }
 
     main {
@@ -135,6 +187,8 @@
         grid-template-columns: minmax(0, 1fr);
       }
     }
+
+    /* Cards */
 
     .card {
       background: var(--bg-elevated);
@@ -150,8 +204,9 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 60%);
-      opacity: 0.9;
+      background:
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 60%);
+      opacity: 1;
       pointer-events: none;
     }
 
@@ -200,6 +255,14 @@
       background: radial-gradient(circle at top, rgba(22, 163, 74, 0.15), rgba(240, 253, 250, 0.9));
     }
 
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(22, 163, 74, 0.8);
+    }
+
     /* Timeline */
 
     .timeline {
@@ -227,7 +290,7 @@
     .day-cell {
       position: relative;
       padding-top: 100%;
-      border-radius: 10px;
+      border-radius: 11px;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       cursor: pointer;
@@ -251,7 +314,7 @@
     }
 
     .day-cell:hover {
-      transform: translateY(-1px);
+      transform: translateY(-1px) scale(1.01);
       box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
       border-color: rgba(148, 163, 184, 0.8);
       background: #ffffff;
@@ -263,7 +326,7 @@
     }
 
     .day-cell--completed {
-      background: radial-gradient(circle at top, rgba(22, 163, 74, 0.25), #ecfdf3);
+      background: radial-gradient(circle at top, rgba(22, 163, 74, 0.22), #ecfdf3);
       border-color: rgba(22, 163, 74, 0.9);
       box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.5);
     }
@@ -355,6 +418,8 @@
       background: #0ea5e9;
     }
 
+    /* Checklist */
+
     .checklist {
       display: flex;
       flex-direction: column;
@@ -367,7 +432,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 8px;
+      padding: 7px 9px;
       border-radius: 12px;
       background: linear-gradient(90deg, #f9fafb, #f3f4f6);
       border: 1px solid #e5e7eb;
@@ -394,8 +459,8 @@
     }
 
     .check-icon {
-      width: 18px;
-      height: 18px;
+      width: 19px;
+      height: 19px;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.7);
       display: inline-flex;
@@ -428,6 +493,8 @@
       flex-direction: column;
       gap: 1px;
     }
+
+    /* Notes & mood */
 
     .note-row {
       display: flex;
@@ -501,6 +568,8 @@
       box-shadow: 0 0 10px rgba(22, 163, 74, 0.9);
     }
 
+    /* Summary */
+
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -568,6 +637,40 @@
       .food-grid {
         grid-template-columns: minmax(0, 1fr);
       }
+    }
+
+    .food-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .food-filter-btn {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .food-filter-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(148, 163, 184, 0.9);
+      background: #ffffff;
+    }
+
+    .food-filter-btn.active {
+      background: #ecfdf3;
+      border-color: rgba(22, 163, 74, 0.9);
+      color: #166534;
     }
 
     .food-list {
@@ -691,6 +794,17 @@
       color: #b91c1c;
     }
 
+    .mini-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      color: var(--muted);
+    }
+
+    /* Buttons */
+
     .btn {
       border-radius: 999px;
       border: 1px solid #e5e7eb;
@@ -780,13 +894,92 @@
       text-decoration: underline;
     }
 
+    /* Add-food dialog */
+
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+    }
+
+    .dialog-backdrop.active {
+      display: flex;
+    }
+
+    .dialog {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.35);
+      max-width: 320px;
+      width: 100%;
+      border: 1px solid #e5e7eb;
+    }
+
+    .dialog-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .dialog-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .dialog-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+
+    .dialog-row label {
+      color: var(--muted);
+    }
+
+    .dialog-row input,
+    .dialog-row select {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      padding: 6px 8px;
+      font-size: 12px;
+      font-family: var(--font-main);
+      outline: none;
+      background: #f9fafb;
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .dialog-row input:focus,
+    .dialog-row select:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.7);
+      background: #ffffff;
+    }
+
+    .dialog-btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
     @media (max-width: 600px) {
       header {
-        align-items: flex-start;
+        padding: 12px 12px;
       }
 
       .brand-text h1 {
-        font-size: 18px;
+        font-size: 19px;
       }
 
       .timeline-days {
@@ -803,18 +996,32 @@
 <div id="app-root">
   <!-- Header -->
   <header>
-    <div class="brand">
-      <div class="brand-logo">AC</div>
-      <div class="brand-text">
-        <h1>90 Day Diabetes Challenge</h1>
-        <p>With Ashraf Chaudhry – focus on habits, not perfection</p>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo">AC</div>
+        <div class="brand-text">
+          <h1>90 Day Diabetes Challenge</h1>
+          <p>With Ashraf Chaudhry – focus on habits, not perfection</p>
+        </div>
       </div>
-    </div>
-    <div class="challenge-badge">
-      <span class="pill-dot"></span>
-      <span id="challenge-day-label">Day 1 of 90</span>
-      <span>•</span>
-      <span id="challenge-progress-mini">0% completed</span>
+      <div>
+        <div class="challenge-badge">
+          <span class="pill-dot"></span>
+          <span id="challenge-day-label">Day 1 of 90</span>
+          <span>•</span>
+          <span id="challenge-progress-mini">0% completed</span>
+        </div>
+        <div class="header-mini-row" style="margin-top: 4px;">
+          <div class="header-mini-pill">
+            <span style="width: 6px;height: 6px;border-radius:999px;background:#22c55e;"></span>
+            <span>Target: <strong>80% consistency</strong></span>
+          </div>
+          <div class="header-mini-pill">
+            <span style="width: 6px;height: 6px;border-radius:999px;background:#0ea5e9;"></span>
+            <span>Better choices, step by step.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -829,7 +1036,7 @@
               90 Day Overview
             </div>
             <div class="card-subtitle">
-              Tap on a day to see your tasks and nutrition impact.
+              Tap on a day to see your tasks and low‑carb nutrition impact.
             </div>
           </div>
           <button class="btn btn-sm" id="btnToday">
@@ -893,8 +1100,18 @@
             <div class="food-grid">
               <!-- Food selection -->
               <div>
-                <div class="card-subtitle" style="margin-bottom: 4px;">Food selection (tap to toggle)</div>
+                <div class="food-filter-row">
+                  <button class="food-filter-btn active" data-filter="all">All</button>
+                  <button class="food-filter-btn" data-filter="Keto friendly">Keto</button>
+                  <button class="food-filter-btn" data-filter="Low‑carb">Low‑carb</button>
+                  <button class="food-filter-btn" data-filter="Higher carb">Higher carb</button>
+                  <button class="food-filter-btn" data-filter="High sugar">High sugar</button>
+                </div>
+                <div class="card-subtitle" style="margin-bottom: 4px;">Tap to toggle foods for this day</div>
                 <div class="food-list" id="foodList"></div>
+                <button class="btn btn-sm" id="btnAddFood" style="margin-top: 6px;">
+                  <span class="btn-icon">＋</span> Add custom food
+                </button>
               </div>
 
               <!-- Food score -->
@@ -917,6 +1134,11 @@
                   </div>
                   <div class="card-subtitle" id="userNutritionComment" style="margin-top: 2px;">
                     Stay consistent with low‑glycemic choices to increase your score over time.
+                  </div>
+                  <div class="section-divider" style="margin: 6px 0;"></div>
+                  <div class="food-score-label">
+                    Avg. GI last 7 days:
+                    <span class="mini-badge" id="last7GiBadge">–</span>
                   </div>
                 </div>
               </div>
@@ -956,7 +1178,10 @@
               Overview of progress, consistency, and nutrition.
             </div>
           </div>
-          <span class="chip chip--accent" id="streakChip">Streak: 0 days</span>
+          <span class="chip chip--accent" id="streakChip">
+            <span class="chip-dot"></span>
+            Streak: 0 days
+          </span>
         </div>
 
         <div class="summary-grid">
@@ -968,7 +1193,7 @@
           <div class="summary-box">
             <span class="summary-label">Overall progress</span>
             <span class="summary-value" id="summaryProgressPercent">0%</span>
-            <span class="summary-trend" id="summaryProgressTrend">Goal: 80%+ consistency.</span>
+            <span class="summary-trend">Goal: 80%+ consistency.</span>
           </div>
           <div class="summary-box">
             <span class="summary-label">Average daily checklist completion</span>
@@ -1017,6 +1242,44 @@
   </footer>
 </div>
 
+<!-- Add-food dialog -->
+<div class="dialog-backdrop" id="dialogBackdrop">
+  <div class="dialog">
+    <div class="dialog-title">Add custom food</div>
+    <div class="dialog-subtitle">
+      For advanced users. Values are rough estimates and do not replace medical advice.
+    </div>
+    <div class="dialog-row">
+      <label for="dialogFoodName">Food name</label>
+      <input id="dialogFoodName" type="text" placeholder="e.g. Dark chocolate 85%" />
+    </div>
+    <div class="dialog-row">
+      <label for="dialogFoodGi">Estimated GI (0–100)</label>
+      <input id="dialogFoodGi" type="number" min="0" max="100" step="1" placeholder="e.g. 25" />
+    </div>
+    <div class="dialog-row">
+      <label for="dialogFoodCarbs">Approx. carbs per portion (g)</label>
+      <input id="dialogFoodCarbs" type="number" min="0" max="100" step="1" placeholder="e.g. 5" />
+    </div>
+    <div class="dialog-row">
+      <label for="dialogFoodCategory">Category</label>
+      <select id="dialogFoodCategory">
+        <option value="Keto friendly">Keto friendly</option>
+        <option value="Low‑carb">Low‑carb</option>
+        <option value="Moderate">Moderate</option>
+        <option value="Higher carb">Higher carb</option>
+        <option value="High sugar">High sugar</option>
+      </select>
+    </div>
+    <div class="dialog-btn-row">
+      <button class="btn btn-sm" id="dialogCancelBtn">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="dialogSaveBtn">
+        <span class="btn-icon">✔</span> Save & select
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
   /******************************************************
    * Base configuration
@@ -1060,9 +1323,8 @@
     { id: "stress", label: "Stressed" },
   ];
 
-  // Simple, curated food list for keto / low carb focus
-  // note: gi is a simplified index; carbsPerPortion in grams (approx.)
-  const FOOD_ITEMS = [
+  // Base food list; user can add more (stored in state)
+  const BASE_FOOD_ITEMS = [
     { id: "eggs", name: "Eggs", gi: 0, carbs: 1, category: "Keto friendly" },
     { id: "avocado", name: "Avocado", gi: 15, carbs: 2, category: "Keto friendly" },
     { id: "olive_oil", name: "Olive oil", gi: 0, carbs: 0, category: "Healthy fat" },
@@ -1083,7 +1345,10 @@
     { id: "pasta", name: "Pasta (regular)", gi: 65, carbs: 30, category: "High carb" },
   ];
 
-  const STORAGE_KEY = "diabetes_90day_challenge_v2";
+  const STORAGE_KEY = "diabetes_90day_challenge_v3";
+
+  let FOOD_ITEMS = [...BASE_FOOD_ITEMS];
+  let currentFoodFilter = "all";
 
   /******************************************************
    * State & storage
@@ -1099,6 +1364,7 @@
       //   foods: ["eggs", "avocado"],
       // }
     },
+    customFoods: [], // array of custom food items
   };
 
   let selectedDay = 1;
@@ -1108,7 +1374,7 @@
     if (raw) {
       try {
         const data = JSON.parse(raw);
-        appState = Object.assign({ startDate: null, days: {} }, data);
+        appState = Object.assign({ startDate: null, days: {}, customFoods: [] }, data);
       } catch (e) {
         console.error("Error loading data:", e);
       }
@@ -1117,6 +1383,10 @@
       const today = new Date();
       appState.startDate = today.toISOString().slice(0, 10);
       saveState(false);
+    }
+    // Merge custom foods into FOOD_ITEMS
+    if (Array.isArray(appState.customFoods)) {
+      FOOD_ITEMS = [...BASE_FOOD_ITEMS, ...appState.customFoods];
     }
   }
 
@@ -1132,7 +1402,8 @@
       return;
     }
     localStorage.removeItem(STORAGE_KEY);
-    appState = { startDate: null, days: {} };
+    appState = { startDate: null, days: {}, customFoods: [] };
+    FOOD_ITEMS = [...BASE_FOOD_ITEMS];
     loadState();
     buildTimeline();
     renderDay(selectedDay);
@@ -1149,7 +1420,6 @@
   }
 
   function formatDateLong(date) {
-    // Use locale en-GB for DD/MM/YYYY style but English weekday
     return date.toLocaleDateString("en-GB", {
       weekday: "short",
       day: "2-digit",
@@ -1253,9 +1523,8 @@
         mood: "",
         foods: [],
       };
-    } else if (!appState.days[dayNumber].foods) {
-      // migrate old state without foods
-      appState.days[dayNumber].foods = [];
+    } else {
+      if (!appState.days[dayNumber].foods) appState.days[dayNumber].foods = [];
     }
     return appState.days[dayNumber];
   }
@@ -1264,11 +1533,25 @@
    * Food & GI logic
    ******************************************************/
 
+  function getFilteredFoods() {
+    if (currentFoodFilter === "all") return FOOD_ITEMS;
+    return FOOD_ITEMS.filter((item) => item.category === currentFoodFilter);
+  }
+
   function buildFoodList(selectedFoods) {
     const container = document.getElementById("foodList");
     container.innerHTML = "";
 
-    FOOD_ITEMS.forEach((item) => {
+    const foodsToShow = getFilteredFoods();
+    if (foodsToShow.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "card-subtitle";
+      empty.textContent = "No foods in this category yet.";
+      container.appendChild(empty);
+      return;
+    }
+
+    foodsToShow.forEach((item) => {
       const div = document.createElement("div");
       const isSelected = selectedFoods.includes(item.id);
       div.className = "food-item" + (isSelected ? " selected" : "");
@@ -1309,10 +1592,9 @@
           dayData.foods.splice(idx, 1);
         }
         saveState(false);
-        // Rebuild list to update visual state
         buildFoodList(dayData.foods);
         updateDayGiUI(dayData);
-        updateAllComputedUI(); // updates user nutrition score as well
+        updateAllComputedUI();
       });
 
       container.appendChild(div);
@@ -1328,9 +1610,6 @@
       };
     }
 
-    // Simple model: sum(gi * portionFactor)
-    // assume each selected food ~= 1 "portion"
-    // GI load = average(GI) + small carb influence
     let giSum = 0;
     let carbSum = 0;
     foods.forEach((id) => {
@@ -1341,9 +1620,7 @@
     });
 
     const avgGi = giSum / foods.length;
-    const giLoad = avgGi + carbSum * 0.4; // arbitrary factor: more carbs => higher impact
-
-    // clamp
+    const giLoad = avgGi + carbSum * 0.4;
     const clamped = Math.max(0, Math.min(100, Math.round(giLoad)));
 
     let quality = "good";
@@ -1359,6 +1636,26 @@
       giScore: clamped,
       quality,
     };
+  }
+
+  function computeLast7AvgGi() {
+    const todayNum = getTodayDayNumber();
+    if (!todayNum) return null;
+
+    let from = Math.max(1, todayNum - 6);
+    let giSum = 0;
+    let count = 0;
+
+    for (let i = from; i <= todayNum; i++) {
+      const d = appState.days[i];
+      if (!d || !d.foods || d.foods.length === 0) continue;
+      const { giScore } = computeDayGiScore(d);
+      giSum += giScore;
+      count++;
+    }
+
+    if (count === 0) return null;
+    return Math.round(giSum / count);
   }
 
   function updateDayGiUI(dayData) {
@@ -1395,7 +1692,6 @@
   }
 
   function computeUserNutritionScore() {
-    // Score based on all days' GI
     let totalScore = 0;
     let daysWithFood = 0;
 
@@ -1403,7 +1699,6 @@
       const d = appState.days[i];
       if (!d || !d.foods || d.foods.length === 0) continue;
       const { giScore } = computeDayGiScore(d);
-      // transform GI (0 = best, 100 = worst) to points (100 = best, 0 = worst)
       const points = Math.max(0, 100 - giScore);
       totalScore += points;
       daysWithFood++;
@@ -1431,6 +1726,36 @@
       raw: avgPoints,
       comment,
     };
+  }
+
+  function updateUserNutritionScoreUI() {
+    const { raw, comment } = computeUserNutritionScore();
+    const userScoreEl = document.getElementById("userNutritionScore");
+    const userCommentEl = document.getElementById("userNutritionComment");
+    userScoreEl.textContent = `${raw} / 100`;
+    userCommentEl.textContent = comment;
+
+    const last7Gi = computeLast7AvgGi();
+    const badge = document.getElementById("last7GiBadge");
+    if (last7Gi == null) {
+      badge.textContent = "No data";
+      badge.style.background = "#f9fafb";
+      badge.style.borderColor = "#e5e7eb";
+      badge.style.color = "#6b7280";
+    } else {
+      badge.textContent = last7Gi;
+      badge.style.borderColor = "#e5e7eb";
+      if (last7Gi <= 35) {
+        badge.style.background = "#ecfdf3";
+        badge.style.color = "#166534";
+      } else if (last7Gi <= 60) {
+        badge.style.background = "#fffbeb";
+        badge.style.color = "#92400e";
+      } else {
+        badge.style.background = "#fef2f2";
+        badge.style.color = "#b91c1c";
+      }
+    }
   }
 
   /******************************************************
@@ -1545,14 +1870,6 @@
     });
   }
 
-  function updateUserNutritionScoreUI() {
-    const { raw, comment } = computeUserNutritionScore();
-    const userScoreEl = document.getElementById("userNutritionScore");
-    const userCommentEl = document.getElementById("userNutritionComment");
-    userScoreEl.textContent = `${raw} / 100`;
-    userCommentEl.textContent = comment;
-  }
-
   /******************************************************
    * Aggregated stats
    ******************************************************/
@@ -1624,7 +1941,7 @@
     summaryStreak.textContent = `${stats.currentStreak} days`;
 
     const streakChip = document.getElementById("streakChip");
-    streakChip.textContent = `Streak: ${stats.currentStreak} days`;
+    streakChip.innerHTML = `<span class="chip-dot"></span> Streak: ${stats.currentStreak} days`;
 
     const summaryCompletedTrend = document.getElementById("summaryCompletedTrend");
     if (stats.completedDays === 0) {
@@ -1684,6 +2001,69 @@
   }
 
   /******************************************************
+   * Add-food dialog
+   ******************************************************/
+
+  function openFoodDialog() {
+    document.getElementById("dialogBackdrop").classList.add("active");
+    document.getElementById("dialogFoodName").value = "";
+    document.getElementById("dialogFoodGi").value = "";
+    document.getElementById("dialogFoodCarbs").value = "";
+    document.getElementById("dialogFoodCategory").value = "Keto friendly";
+  }
+
+  function closeFoodDialog() {
+    document.getElementById("dialogBackdrop").classList.remove("active");
+  }
+
+  function saveCustomFood() {
+    const nameEl = document.getElementById("dialogFoodName");
+    const giEl = document.getElementById("dialogFoodGi");
+    const carbsEl = document.getElementById("dialogFoodCarbs");
+    const catEl = document.getElementById("dialogFoodCategory");
+
+    const name = nameEl.value.trim();
+    const gi = Number(giEl.value);
+    const carbs = Number(carbsEl.value);
+    const category = catEl.value;
+
+    if (!name) {
+      alert("Please enter a food name.");
+      return;
+    }
+
+    if (Number.isNaN(gi) || gi < 0 || gi > 100) {
+      alert("Please enter a GI between 0 and 100.");
+      return;
+    }
+
+    if (Number.isNaN(carbs) || carbs < 0 || carbs > 200) {
+      alert("Please enter a realistic carb value.");
+      return;
+    }
+
+    const id =
+      "custom_" +
+      name.toLowerCase().replace(/[^a-z0-9]+/g, "_") +
+      "_" +
+      Date.now().toString(36);
+
+    const newFood = { id, name, gi, carbs, category };
+
+    appState.customFoods.push(newFood);
+    FOOD_ITEMS = [...BASE_FOOD_ITEMS, ...appState.customFoods];
+
+    const dayData = getOrInitDay(selectedDay);
+    dayData.foods.push(id);
+
+    saveState(false);
+    closeFoodDialog();
+    buildFoodList(dayData.foods);
+    updateDayGiUI(dayData);
+    updateAllComputedUI();
+  }
+
+  /******************************************************
    * Events
    ******************************************************/
 
@@ -1735,6 +2115,25 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     });
+
+    // Food filter buttons
+    document.querySelectorAll(".food-filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".food-filter-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFoodFilter = btn.dataset.filter;
+        const dayData = getOrInitDay(selectedDay);
+        buildFoodList(dayData.foods || []);
+      });
+    });
+
+    // Add food dialog
+    document.getElementById("btnAddFood").addEventListener("click", openFoodDialog);
+    document.getElementById("dialogCancelBtn").addEventListener("click", closeFoodDialog);
+    document.getElementById("dialogBackdrop").addEventListener("click", (e) => {
+      if (e.target.id === "dialogBackdrop") closeFoodDialog();
+    });
+    document.getElementById("dialogSaveBtn").addEventListener("click", saveCustomFood);
   }
 
   /******************************************************
