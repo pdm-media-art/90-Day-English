@@ -2,7 +2,9 @@
   "name": "90 Day Diabetes Challenge",
   "short_name": "Diabetes90",
   "start_url": "/90-Day-English/",
+  "scope": "/90-Day-English/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#16a34a",
   "theme_color": "#16a34a",
   "icons": [
